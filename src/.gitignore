@@ -1,0 +1,9 @@
+# Ignore compiled class files
+out/
+
+# Ignore IntelliJ IDEA project-specific files
+*.iml
+.idea/
+
+# Ignore other system files
+.DS_Store
