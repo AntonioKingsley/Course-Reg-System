@@ -3,31 +3,34 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static DatabaseConnection dBConnection;
-    private Connection connection;
+    private static final String URL = "jdbc:mysql://localhost:3306/CourseRegDB";
+    private static final String USER = "root";
+    private static final String PASSWORD = "Anto1311//";
 
-    private DatabaseConnection() throws ClassNotFoundException, SQLException{
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "Anto1311//");
-    }
+    private static Connection connection;
 
-    public static DatabaseConnection getInstance() throws ClassNotFoundException, SQLException{
-        if(dBConnection == null){
-            dBConnection = new DatabaseConnection();
-        }
-        return dBConnection;
-    }
-
+    // Create a single database connection (Singleton Pattern)
     public static Connection getConnection() {
-        try {
-            // Using the Singleton instance's connection
-            return getInstance().connection;
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            return null;
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return connection;
+    }
+
+    // Close the connection when the application exits
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                connection = null; // Reset connection after closing
+                System.out.println("✅ Database connection closed.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
-
-
-
