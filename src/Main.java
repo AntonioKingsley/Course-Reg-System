@@ -1,11 +1,11 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Testing student and course");
+        System.out.println("Testing DB...");
 
-        Course course = new Course("C001", "combined Maths", 5);
-        course.displayCourse();
-
-        Student student = new Student("S0011", "Kamal perera", "maths");
-        student.displayStudent();
+        if (DatabaseConnection.getConnection() != null) {
+            System.out.println("Connection successful!");
+        } else {
+            System.out.println("Connection failed!");
+        }
     }
 }
